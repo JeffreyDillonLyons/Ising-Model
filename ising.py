@@ -129,13 +129,13 @@ def data(ts, end, it, inc):
 	plt.show()
 	
 				
-									
-data( 1.0,2.0,1,0.5)
+		
+#Shell script writes to this line. 
 
 
 
 
-##Write shell script to this line
+
 
 
 
