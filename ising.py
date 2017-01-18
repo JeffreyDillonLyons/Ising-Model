@@ -2,7 +2,7 @@
 
 
 """
-Implementation of a Metropolis algorithm for investigation of the two dimaensional Ising model.
+Implementation of the Metropolis Algorithm for investigation of the two dimensional Ising model.
 
 Jeffrey Lyons
 
@@ -22,11 +22,11 @@ size = 5
 '''TOOLBOX'''
 #The following function builds our lattice. First creating an array of the desired size populated by zeros. It is then filled with spins whose orientation is chosen by the numpy random choice operator.
 def random_lattice(size):
-    spin = [-1,1]
+    dir = [-1,1]
     lattice = np.zeros((size,size), int) # Creates lattice of specified size and populates it with zeros. 
     for i in range (size):
         for j in range (size):
-            lattice[i][j] = np.random.choice(spin) #Chooses initial spin configuration of sites.
+            lattice[i][j] = np.random.choice(dir) #Chooses initial spin configuration of sites.
     return lattice
     
 lattice = random_lattice((size)) #Lattice building function is called. Lattice is created. 
@@ -84,7 +84,7 @@ def metro(it,T, k, J):
             M1 = M1 + Mag
 	    M_2 = M_2 + M_2*M_2
             Magnet = M1/((it - equil)) + 0.0 #Calculates average magnetization per spin.
-            #X = (M_2/(it - equil) - (M1/(it - equil))**2 /(size*T)) #Calculates the specific heat capacity of the lattice.
+            
 
     return str(E) + " " + str((Magnet)/size**2) + " " + str(C)
     
