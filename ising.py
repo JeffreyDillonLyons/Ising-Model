@@ -33,16 +33,16 @@ lattice = random_lattice((size)) #Lattice building function is called. Lattice i
 
 ##Here we code for the periodic boundary condition. Lattice sites on edge will interact with spins on geometrically opposite edge.
 def pb(i):
-    if i+1 > size-1:
+    if i > size-1:
         return 0
-    if i-1 < 0:
+    if i < 0:
         return size-1
     else:
         return i
       
 #Hamiltion of ithjth spin due to nearest neighbour interactions.
 def spin_H(i,j):
-    return -1 * lattice[i,j] * (lattice[pb(i), j] + lattice[pb(i), j]+ lattice[i, pb(j)] + lattice[i, pb(j)])
+    return -1 * lattice[i,j] * (lattice[pb(i+1), j] + lattice[pb(i-1), j]+ lattice[i, pb(j+1)] + lattice[i, pb(j-1)])
 
 #Here we calculate the lattice energy by summing the individual spin hamiltonions and account for quadruple counting. 
 def lattice_energy(lattice):
@@ -68,7 +68,7 @@ def metro(it,T, k, J):
         i = np.random.choice(lattice_list,1) #Choose random lattice index[i]
         j = np.random.choice(lattice_list,1) #Choose random lattice index[j]
         flipcost = spin_H(i,j)*J*2 #Energy cost of flipping single spin.
-        if flipcost >= 0 or (flipcost < 0 and np.exp(flipcost/k*T) >= random.random()): #Calculates Boltzmann factor for flipping spin.
+        if flipcost >= 0 or (flipcost < 0 and np.exp(flipcost/(k*T)) >= random.random()): #Calculates Boltzmann factor for flipping spin.
             lattice[i,j] = -1*lattice[i,j] #Flips spin if it is energetically favourable.
         else:  
             lattice[i,j] = lattice[i,j]
@@ -86,7 +86,7 @@ def metro(it,T, k, J):
             Magnet = M1/((it - equil)) + 0.0 #Calculates average magnetization per spin.
             #X = (M_2/(it - equil) - (M1/(it - equil))**2 /(size*T)) #Calculates the specific heat capacity of the lattice.
 
-    return str(E) + " " + str(Magnet) + " " + str(C)
+    return str(E) + " " + str((Magnet)/size**2) + " " + str(C)
     
     
      
